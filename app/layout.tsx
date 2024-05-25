@@ -17,13 +17,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+
       <html lang="en">
-        <body className="">
-          <Navbar />
-          {children}
-        </body>
+        <ClerkProvider>
+          <body className="relative">
+            <Navbar />
+            {children}
+          </body>
+        </ClerkProvider>
       </html>
-    </ClerkProvider>
   );
 }
