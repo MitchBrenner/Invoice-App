@@ -50,7 +50,8 @@ export const columns: ColumnDef<Invoice>[] = [
     header: "Name",
     cell: ({row}) => {
         const name = String(row.getValue("name"));
-        return <Link href='/'>
+        const id = String(row.getValue("id"));
+        return <Link href={`/invoices/${id}`}>
             <p>{name}</p>
         </Link>
     }

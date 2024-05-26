@@ -6,25 +6,25 @@ async function getData(): Promise<Invoice[]> {
   // Fetch data from your API here.
   return [
     {
-      id: "728ed52f",
+      id: "1",
       name: "Acme Corp",
       status: "in progress",
       date: "5/24/24"
     },
     {
-      id: "728ed52g",
+      id: "2",
       name: "Widget Co",
       status: "completed",
       date: "5/3/24"
     },
     {
-      id: "728ed52h",
+      id: "3",
       name: "Example Inc",
       status: "sent",
       date: "4/27/24"
     },
     {
-      id: "728ed52i",
+      id: "4",
       name: "Sample LLC",
       status: "paid",
       date: "4/22/24"
