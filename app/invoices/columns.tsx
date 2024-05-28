@@ -3,15 +3,11 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { BookmarkCheck, Loader, LoaderCircle, PackageCheck, Receipt, Send } from "lucide-react"
 import Link from "next/link"
+import { Invoice } from "@/lib/types"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Invoice = {
-  id: string
-  name: string
-  status: "in progress" | "completed" | "sent" | "paid"
-  date: string
-}
+
 
 export const columns: ColumnDef<Invoice>[] = [
   {
