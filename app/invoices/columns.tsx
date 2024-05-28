@@ -57,6 +57,14 @@ export const columns: ColumnDef<Invoice>[] = [
     }
   },
   {
+    accessorKey: "id",
+    header: () => <div className="text-right">ID</div>,
+    cell: ({row}) => {
+        const id = String(row.getValue("id"));
+        return <p className="text-right">{id}</p>
+    }
+  },
+  {
     accessorKey: "date",
     header: () => <div className="text-right">Date</div>,
     cell: ({row}) => {

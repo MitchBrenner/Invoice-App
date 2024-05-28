@@ -27,17 +27,23 @@ export default function Home() {
   const { organization } = useOrganization()
   
   return (
-    <main className="relative top-[60px]">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
-          {cards.map((card, index) => (
-            <Card key={index} name={card.name} icon={card.icon} redirect={card.redirect}/>
-          ))}
-        </div>
-        <div>
-          <p>{user?.user?.id}</p>
-          <p>{organization?.id}</p>
-          <p>{organization?.slug}</p>
-        </div>
+    <main className="relative top-[60px] p-5 ">
+      <div className="space-y-5 mb-10 mt-5">
+        <h1 className="text-5xl font-bold text-center">
+          {organization ? organization.slug : "Personal"} Dashboard
+        </h1>
+        <hr />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
+        {cards.map((card, index) => (
+          <Card key={index} name={card.name} icon={card.icon} redirect={card.redirect}/>
+        ))}
+      </div>
+      <div>
+        <p>{user?.user?.id}</p>
+        <p>{organization?.id}</p>
+        <p>{organization?.slug}</p>
+      </div>
     </main>
   );
 }

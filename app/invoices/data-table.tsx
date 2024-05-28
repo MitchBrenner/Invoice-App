@@ -66,16 +66,22 @@ export function DataTable<TData, TValue>({
           {/* button for dropdown */}
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              Status
+              {
+                table.getColumn("status")?.getFilterValue() === "In Progress" || 
+                table.getColumn("status")?.getFilterValue() === "Completed" || 
+                table.getColumn("status")?.getFilterValue() === "Sent" || 
+                table.getColumn("status")?.getFilterValue() === "Paid" 
+                ? table.getColumn("status")?.getFilterValue() as String : "All"
+              }
             </Button>
           </DropdownMenuTrigger>
 
           {/* dropdown menu content */}
           <DropdownMenuContent align="end">
             <DropdownMenuCheckboxItem
-              checked={table.getColumn("status")?.getFilterValue() as String === ""}
+              checked={table.getColumn("status")?.getFilterValue() === null}
               onCheckedChange={() =>
-                table.getColumn("status")?.setFilterValue("")
+                table.getColumn("status")?.setFilterValue(null)
               }
              >
               <div className="text-sm flex items-center space-x-2">
