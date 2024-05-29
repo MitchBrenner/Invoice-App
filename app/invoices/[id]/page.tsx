@@ -15,11 +15,10 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { collection, doc, orderBy, query, setDoc } from 'firebase/firestore';
+import { Timestamp, collection, doc, orderBy, query, setDoc, updateDoc, where } from 'firebase/firestore';
 import { db } from '@/firebase';
 import { useOrganization } from '@clerk/nextjs';
 import { useCollection } from 'react-firebase-hooks/firestore';
-import { add, set } from 'date-fns';
 import toast from 'react-hot-toast';
 
 
@@ -29,6 +28,7 @@ const invoiceSchema = z.object({
   billTo: z.string(),
   shipTo: z.string(),
   sendDate: z.string(),
+  userId: z.string(),
 });
 type Inputs = z.infer<typeof invoiceSchema>;
 
@@ -43,7 +43,8 @@ function page( { params } : {params: {id: string}} ) {
 
   const [docs, loading, error] = useCollection(
     organization && query(
-      collection(db, `organizations/${organization!.id}/invoices/${params.id}/more`)
+      collection(db, `organizations/${organization!.id}/invoices`),
+      where("id", "==", params.id)
     )
   )
 
@@ -52,7 +53,7 @@ function page( { params } : {params: {id: string}} ) {
   const form = useForm<Inputs>({
     resolver: zodResolver(invoiceSchema),
     defaultValues: {
-      name: initialValues?.name || '',
+      name: initialValues?.name === "Untitled Name" ? '' : initialValues?.name || '',
       billTo: initialValues?.billTo || '',
       shipTo: initialValues?.shipTo || '',
       sendDate: initialValues?.sendDate || '',
@@ -65,6 +66,8 @@ function page( { params } : {params: {id: string}} ) {
     const data = docs?.docs[0]?.data() as Inputs;
     // console.log(data);
     setInitialValues(data);
+    console.log(data);
+
     form.reset(data); // Reset the form with fetched data
   }, [docs, form]);
 
@@ -84,7 +87,7 @@ function page( { params } : {params: {id: string}} ) {
   };
 
   const addInvoiceData = async (data: Inputs) => {
-    await setDoc(doc(db, `organizations/${organization!.id}/invoices/${params.id}/more/details`), {
+    await updateDoc(doc(db, `organizations/${organization!.id}/invoices/${params.id}`), {
       ...data,
     });
   }
@@ -101,6 +104,7 @@ function page( { params } : {params: {id: string}} ) {
             <p className='font-black text-3xl'>Invoice</p>
             <p className='text-sm text-slate-600'> #{params.id}</p>
             {/* created by ... on date... */}
+            <p className='text-xs text-slate-600'>Created by {initialValues?.userId}</p>
           </div>
           {/* Buyer field */}
           <FormField

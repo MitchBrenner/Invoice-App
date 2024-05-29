@@ -61,7 +61,7 @@ export const columns: ColumnDef<Invoice>[] = [
         // const name  = String(row.getValue("name"));
         const id = String(row.getValue("id"));
         return <Link href={`/invoices/${id}`}>
-            <p>{name}</p>
+            <p className="font-semibold">{name}</p>
         </Link>
     }
   },
