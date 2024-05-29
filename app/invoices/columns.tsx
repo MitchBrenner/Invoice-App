@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { BookmarkCheck, Loader, LoaderCircle, PackageCheck, Receipt, Send } from "lucide-react"
 import Link from "next/link"
 import { Invoice } from "@/lib/types"
+import { Timestamp } from "firebase/firestore"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -45,7 +46,8 @@ export const columns: ColumnDef<Invoice>[] = [
     accessorKey: "name",
     header: "Name",
     cell: ({row}) => {
-        const name = String(row.getValue("name"));
+        const name = row.getValue("name") === undefined ? "Untitled Invoice" : String(row.getValue("name"));
+        // const name  = String(row.getValue("name"));
         const id = String(row.getValue("id"));
         return <Link href={`/invoices/${id}`}>
             <p>{name}</p>
@@ -57,14 +59,18 @@ export const columns: ColumnDef<Invoice>[] = [
     header: () => <div className="text-right">ID</div>,
     cell: ({row}) => {
         const id = String(row.getValue("id"));
-        return <p className="text-right">{id}</p>
+        return <p className="text-right">#{id}</p>
     }
   },
   {
-    accessorKey: "date",
+    accessorKey: "timestamp",
     header: () => <div className="text-right">Date</div>,
     cell: ({row}) => {
-        const date = String(row.getValue("date"));
+        const timestamp: Timestamp = row.getValue("timestamp");
+        const date = new Date(timestamp.seconds * 1000).toLocaleDateString();
+
+
+
         return <p className="text-right">{date}</p>
     }
   },
