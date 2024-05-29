@@ -5,7 +5,7 @@ import React from 'react'
 
 function Navbar() {
   return (
-    <div className='absolute top-0 flex w-full h-12 p-2 justify-between items-center px-3 bg-slate-200 border-b-2 border-slate-300'>
+    <div className='fixed z-10 top-0 flex w-full h-12 p-2 justify-between items-center px-3 bg-slate-200 border-b-2 border-slate-300'>
         <div>
             <Link href='/'>
                 <p className=''>

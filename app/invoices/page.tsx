@@ -1,8 +1,7 @@
 'use client';
 import { Button } from "@/components/ui/button"
 import { Invoice } from "@/lib/types"
-// import Table from "./Table"
-import { use, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useOrganization, useUser } from "@clerk/nextjs"
 import { db } from "@/firebase"
 import { addDoc, collection, doc, getDocs, orderBy, query, serverTimestamp, updateDoc } from "firebase/firestore"
@@ -10,6 +9,7 @@ import { DataTable } from "./data-table";
 import { columns } from "./columns";
 import { useRouter } from "next/navigation";
 import { useCollection } from 'react-firebase-hooks/firestore';
+import toast from "react-hot-toast";
 
 // Fetch data from your API here.
 // const data: Invoice[] = [
@@ -69,7 +69,6 @@ function DemoPage() {
   const createInvoice = async () => {
     if (addingInvoice) return;
     if (!organization) return;
-
     setAddingInvoice(true);
 
     // add invoice to database add doc : organizations/organization.id/invoices/
@@ -77,9 +76,10 @@ function DemoPage() {
       // Add invoice to database in the organizations collection
       const docRef = await addDoc(collection(db, `organizations/${organization.id}/invoices`), {
         id: "-1",
-        userId: user?.user?.id,
+        userId: user?.user?.firstName + " " + user?.user?.lastName,
         timestamp: serverTimestamp(),
         status: "in progress",
+        name: "Untitled Invoice",
       });
 
       await updateDoc(doc(db, `organizations/${organization.id}/invoices/${docRef.id}`), {
@@ -104,9 +104,16 @@ function DemoPage() {
       <div className="container mx-auto py-20 space-y-3">
         <h1 className="font-black text-3xl text-slate-600">Invoices</h1>
         <Button 
-          variant={"outline"} 
+          variant={"secondary"} 
           color="green"
-          onClick={createInvoice}
+          onClick={() => {
+            toast.promise(createInvoice(), {
+              loading: "Creating invoice...",
+              success: "Invoice created!",
+              error: "Failed to create invoice",
+            })
+          }}
+          disabled={addingInvoice}
         >
           <p>New Invoice</p>
         </Button>

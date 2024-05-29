@@ -1,17 +1,28 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { BookmarkCheck, Loader, LoaderCircle, PackageCheck, Receipt, Send } from "lucide-react"
+import { BookmarkCheck, Loader, LoaderCircle, PackageCheck, Receipt, Send, Trash2 } from "lucide-react"
 import Link from "next/link"
 import { Invoice } from "@/lib/types"
 import { Timestamp } from "firebase/firestore"
+import { Button } from "@/components/ui/button"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
 
 export const columns: ColumnDef<Invoice>[] = [
-  {
+    {
+        id: "actions",
+        cell: ({row}) => {
+            // when clicked on the row, it will redirect to the invoice page
+            const id = String(row.getValue("id"));
+            return <Link href={`/invoices/${id}`}>
+                <Button variant={'outline'}>View</Button>
+            </Link>
+        }
+    },
+    {
     accessorKey: "status",
     header: "Status",
     cell: ({row}) => {
@@ -67,11 +78,17 @@ export const columns: ColumnDef<Invoice>[] = [
     header: () => <div className="text-right">Date</div>,
     cell: ({row}) => {
         const timestamp: Timestamp = row.getValue("timestamp");
-        const date = new Date(timestamp.seconds * 1000).toLocaleDateString();
-
-
-
+        const date = new Date(timestamp?.seconds * 1000).toLocaleDateString();
         return <p className="text-right">{date}</p>
     }
   },
+//   {
+//     id: "delete",
+//     cell: ({row}) => {
+//         const id = String(row.getValue("id"));
+//         return <Button variant="destructive" onClick={() => console.log("Delete", id)}>
+//             <Trash2 />
+//         </Button>
+//     }
+//   }
 ]

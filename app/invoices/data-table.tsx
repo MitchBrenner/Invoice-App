@@ -28,7 +28,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { BookmarkCheck, LoaderCircle, Receipt, Send } from "lucide-react"
+import { BookmarkCheck, ChevronDown, LoaderCircle, Receipt, Send } from "lucide-react"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -66,13 +66,16 @@ export function DataTable<TData, TValue>({
           {/* button for dropdown */}
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              {
-                table.getColumn("status")?.getFilterValue() === "In Progress" || 
-                table.getColumn("status")?.getFilterValue() === "Completed" || 
-                table.getColumn("status")?.getFilterValue() === "Sent" || 
-                table.getColumn("status")?.getFilterValue() === "Paid" 
-                ? table.getColumn("status")?.getFilterValue() as String : "All"
-              }
+              <div className="flex items-center">
+                  {
+                    table.getColumn("status")?.getFilterValue() === "In Progress" || 
+                    table.getColumn("status")?.getFilterValue() === "Completed" || 
+                    table.getColumn("status")?.getFilterValue() === "Sent" || 
+                    table.getColumn("status")?.getFilterValue() === "Paid" 
+                    ? table.getColumn("status")?.getFilterValue() as String : "All"
+                  }
+                  <ChevronDown size={21} className="ml-3"/>
+              </div>
             </Button>
           </DropdownMenuTrigger>
 
