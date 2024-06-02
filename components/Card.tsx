@@ -1,6 +1,11 @@
+import { useOrganization } from "@clerk/nextjs";
 import Link from "next/link"
 
 function Card({ name, icon, redirect }: {name: string, icon?: React.ReactNode, redirect: string}) {
+
+    const { organization } = useOrganization();
+    if (!organization) redirect = '/select-organization';
+
   return (
     <Link href={redirect}>
         <div 

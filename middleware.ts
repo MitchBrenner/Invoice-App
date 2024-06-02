@@ -10,6 +10,6 @@ export const config = {
 };
 
 const isProtectedRoute = createRouteMatcher([
-    '/', '/invoices', '/w2'
+    '/invoices', '/invoices/(.*)', '/w2', '/select-organization', '/organization-profile', '/organization-profile/(.*)'
   ]);
 
