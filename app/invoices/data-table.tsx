@@ -142,10 +142,19 @@ export function DataTable<TData, TValue>({
         </DropdownMenu>
         <Input
           placeholder="Search by name..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+          value={(table.getColumn("name")?.getFilterValue() as string)}
+          onChange={(event) => {
+              table.getColumn("name")?.setFilterValue(event.target.value)
           }
+          }
+          className="max-w-sm"
+        />
+        <Input 
+          placeholder="Search by ID..."
+          value={(table.getColumn("id")?.getFilterValue() as string)}
+          onChange={(event) => {
+              table.getColumn("id")?.setFilterValue(event.target.value)
+          }}
           className="max-w-sm"
         />
       </div>
