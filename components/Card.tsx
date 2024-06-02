@@ -1,10 +1,21 @@
+import { db } from "@/firebase";
 import { useOrganization } from "@clerk/nextjs";
+import { collection, query, where } from "firebase/firestore";
 import Link from "next/link"
+import { useCollection } from "react-firebase-hooks/firestore";
 
 function Card({ name, icon, redirect }: {name: string, icon?: React.ReactNode, redirect: string}) {
 
     const { organization } = useOrganization();
     if (!organization) redirect = '/select-organization';
+
+    // retrieve the organization invoices from database
+    const [docs, loading, error] = useCollection(
+        organization && query(
+            collection(db, `organizations/${organization.id}/invoices`),
+            where("status", "==", "completed")
+        )
+    )
 
   return (
     <Link href={redirect}>
@@ -16,9 +27,14 @@ function Card({ name, icon, redirect }: {name: string, icon?: React.ReactNode, r
                 <p className="text-2xl font-semibold">{name}</p>
                 {icon}
             </div>
-            <div>
-                <p className="text-sm text-gray-400 text-end">5 completed invoices</p>
-            </div>
+            {
+                docs && (
+                    <div className="flex justify-end items-center m-5 space-x-1">
+                        <p className="text-md text-yellow-500 font-bold">{docs.docs.length} completed</p>
+                        {/* <p className="text-md "> completed </p> */}
+                    </div>
+                )
+            }
         </div>
     </Link>
   )

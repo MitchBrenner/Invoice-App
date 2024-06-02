@@ -14,11 +14,11 @@ const cards = [
     icon: <FileBarChart2 />,
     redirect: '/invoices'
   },
-  {
-    name: 'W2',
-    icon: <FileIcon />,
-    redirect: '/w2'
-  }
+  // {
+  //   name: 'W2',
+  //   icon: <FileIcon />,
+  //   redirect: '/w2'
+  // }
 ]
 
 export default function Home() {
