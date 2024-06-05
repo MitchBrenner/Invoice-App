@@ -24,6 +24,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - Firebase
 - Firestore
 - React Firebase Hooks
+- React Hook Forms and Zod 
+-jsPDF for generating PDFs
 - Vercel
 
 

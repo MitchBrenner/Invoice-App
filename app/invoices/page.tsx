@@ -66,6 +66,7 @@ function DemoPage() {
   }, [docs]);
 
 
+  // Create a new invoice
   const createInvoice = async () => {
     if (addingInvoice) return;
     if (!organization) return;
@@ -73,13 +74,16 @@ function DemoPage() {
 
     // add invoice to database add doc : organizations/organization.id/invoices/
     try {
+      const invoiceNumber = docs?.docs?.length ? docs.docs?.length + 1 : 1;
+
       // Add invoice to database in the organizations collection
       const docRef = await addDoc(collection(db, `organizations/${organization.id}/invoices`), {
-        id: "-1",
+        invoiceNumber: invoiceNumber,
         userId: user?.user?.firstName + " " + user?.user?.lastName,
         timestamp: serverTimestamp(),
         status: "in progress",
         name: "Untitled Invoice",
+        downloadLink: "",
       });
 
       await updateDoc(doc(db, `organizations/${organization.id}/invoices/${docRef.id}`), {

@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { BookmarkCheck, Loader, LoaderCircle, PackageCheck, Receipt, Send, Trash2 } from "lucide-react"
+import { BookmarkCheck, Download, Loader, LoaderCircle, PackageCheck, Receipt, Send, Trash2 } from "lucide-react"
 import Link from "next/link"
 import { Invoice } from "@/lib/types"
 import { Timestamp } from "firebase/firestore"
@@ -67,10 +67,18 @@ export const columns: ColumnDef<Invoice>[] = [
   },
   {
     accessorKey: "id",
-    header: () => <div className="text-right">ID</div>,
+    header: () => <div className="text-right hidden">ID</div>,
     cell: ({row}) => {
         const id = String(row.getValue("id"));
-        return <p className="text-right">#{id}</p>
+        return <p className="text-right hidden">#{id}</p>
+    }
+  },
+  {
+    accessorKey: "invoiceNumber",
+    header: () => <div className="text-right">ID</div>,
+    cell: ({row}) => {
+        const invoiceNumber = row.getValue("invoiceNumber") as String;
+        return <p className="text-right">#{invoiceNumber}</p>
     }
   },
   {
@@ -82,6 +90,17 @@ export const columns: ColumnDef<Invoice>[] = [
         return <p className="text-right">{date}</p>
     }
   },
+//   {
+//     accessorKey: "downloadLink",
+//     header: () => <></>,
+//     cell: ({row}) => {
+//         const downloadLink = row.getValue("downloadLink");
+//         return <Button variant={'ghost'}>
+//             <Download size={15} />
+//         </Button>
+    
+//     }
+//   }
 //   {
 //     id: "delete",
 //     cell: ({row}) => {

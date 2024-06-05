@@ -1,5 +1,3 @@
-// "use client"
-
 import {
   ColumnDef,
   flexRender,
@@ -43,7 +41,7 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     []
   )
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  // const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   // const [showStatusBar, setShowStatusBar] = useState<Checked>(true)
 
   const table = useReactTable({
@@ -53,7 +51,7 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
+    // onColumnVisibilityChange: setColumnVisibility,
     state: {
       columnFilters,
     },
@@ -151,9 +149,9 @@ export function DataTable<TData, TValue>({
         />
         <Input 
           placeholder="Search by ID..."
-          value={(table.getColumn("id")?.getFilterValue() as string)}
+          value={(table.getColumn("invoiceNumber")?.getFilterValue() as string)}
           onChange={(event) => {
-              table.getColumn("id")?.setFilterValue(event.target.value)
+              table.getColumn("invoiceNumber")?.setFilterValue(event.target.value)
           }}
           className="max-w-sm"
         />
